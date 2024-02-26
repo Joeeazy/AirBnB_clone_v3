@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+"""Contains a Flask web app"""
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
