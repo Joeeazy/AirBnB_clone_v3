@@ -3,12 +3,14 @@
 Create a new view for the link between Place objects and Amenity objects that
 handles all default RESTFul API actions
 """
+
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models import storage, Place, Amenity
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET', 'POST'])
 def places_amenities(place_id):
+    """Updates amenities list to place"""
     place = storage.get(Place, place_id)
 
     if place is None:
@@ -36,6 +38,7 @@ def places_amenities(place_id):
 
 @app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'])
 def delete_place_amenity(place_id, amenity_id):
+    """Deletes a Amenity object to a Place."""
     place = storage.get(Place, place_id)
     amenity = storage.get(Amenity, amenity_id)
 
