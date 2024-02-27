@@ -1,7 +1,10 @@
 #!/usr/bin/python3
 """ holds class User"""
 import models
-from models.base_model import BaseModel, Base
+from models.base_model import BaseModel, Base, DateTime
+import hashlib
+from datetime import datetime
+import uuid
 from os import getenv
 import sqlalchemy
 from sqlalchemy import Column, String
@@ -27,3 +30,16 @@ class User(BaseModel, Base):
     def __init__(self, *args, **kwargs):
         """initializes user"""
         super().__init__(*args, **kwargs)
+        if 'password' in kwargs:
+            self.password = hashlib.md5(kwargs['password'].encode()).hexdigest()
+
+    def update_password(self, new_password):
+        """Updates the password in Basemodel"""
+        self.password = hashlib.md5(new_password.encode()).hexdigest()
+
+    def to_dict(self, include_password=False):
+        """Returns a dictionary containing all keys/values of the instance"""
+        new_dict = super().to_dict()
+        if not include_password and "password" in new_dict:
+            del new_dict["password"]
+        return new_dict

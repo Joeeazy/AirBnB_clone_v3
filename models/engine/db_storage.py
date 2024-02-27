@@ -3,6 +3,7 @@
 Contains the class DBStorage
 """
 
+import hashlib
 import models
 from models.amenity import Amenity
 from models.base_model import BaseModel, Base
@@ -64,7 +65,11 @@ class DBStorage:
 
     def new(self, obj):
         """add the object to the current database session"""
-        self.__session.add(obj)
+        if obj:
+            obj.save()
+            obj.set_password(obj.password)  # Hash the password before storing
+            self.__session.add(obj)
+            self.__session.commit()
 
     def save(self):
         """commit all changes of the current database session"""
