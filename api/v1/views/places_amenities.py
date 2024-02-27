@@ -1,12 +1,12 @@
 #!/usr/bin/python3
-"""
-Create a new view for the link between Place objects and Amenity objects that
-handles all default RESTFul API actions
-"""
-
+'''Create a new view for the link between Place objects and Amenity'''
 from flask import jsonify, abort, request
+from werkzeug.exceptions import NotFound, MethodNotAllowed, BadRequest
+
 from api.v1.views import app_views
-from models import storage, Place, Amenity
+from models import storage
+from models.place import Place
+from models.amenity import Amenity
 
 @app_views.route('/places/<place_id>/amenities', methods=['GET', 'POST'])
 def places_amenities(place_id):
